@@ -4,10 +4,10 @@
 The purpose of this code is to periodically read temperature and humidity from an attached DHT22 sensor and transmit using regular 433mhz transmitter. The signal is in Alecto protocol, it can fool their devices also. Besides it is compatible with a great domotica solution: Pilight (http://www.pilight.org).
 
 # Wiring:
-![ATtiny Weather Station](/attiny_weather_station_wiring.jpg?raw=true "Wiring")
+![ATtiny Weather Station](/wiring.jpg?raw=true "Wiring")
 
 # Schematics:
-![ATtiny Weather Station](/attiny_weather_station_schem.jpg?raw=true "Schematics")
+![ATtiny Weather Station](/schematics.jpg?raw=true "Schematics")
 
 # Compile
 To compile there is DHTlib v0.1.13 needed. It is possible to work with newer versions, but this one is tested to work with.
