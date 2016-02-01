@@ -4,13 +4,13 @@ Compared to my other weather station running on Arduino Nano (328P) it is a powe
 Therefore it can run off a single AAA battery for months now. Everything is detailed below to build yourself one, but in case you have questions, i'm glad to answer! The project is yet far from complete, there can be still issues and mistypes so watch out.
 
 ## Parts-list:
- - Atmel ATtiny85 microchip
- - DHT22/AM2302 sensor
- - RF 433 transmitter module
- - 4.7µH inductor
- - MCP1640 step-up converter
- - battery holder (1xAAA)
- - 2 pin switch
+ - [Atmel ATtiny85 microchip] (http://www.atmel.com/images/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf)
+ - [DHT22/AM2302 sensor] (https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf)
+ - [RF 433 transmitter module] (http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR0.TRC0.H0.Xrf+433+arduino.TRS0&_nkw=rf+433+arduino&_sacat=0)
+ - [4.7µH inductor] (http://www.ebay.com/sch/i.html?_odkw=4.7uh+-smd&_osacat=0&_from=R40&_trksid=p2045573.m570.l1313.TR0.TRC0.H0.X4.7uh+axial.TRS0&_nkw=4.7uh+axial&_sacat=0)
+ - [MCP1640 step-up converter] (http://ww1.microchip.com/downloads/en/DeviceDoc/22234B.pdf)
+ - [battery holder (1xAAA)] (http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR0.TRC0.H0.X1+aaa+battery+holder.TRS0&_nkw=1+aaa+battery+holder&_sacat=0)
+ - [2 pin SPST switch] (http://www.ebay.com/sch/i.html?_odkw=spst+switch&_osacat=0&_from=R40&_trksid=p2045573.m570.l1313.TR10.TRC2.A0.H0.Xspst+switch+smd.TRS0&_nkw=spst+switch+smd&_sacat=0)
  - few different resistors (see the schematics)
  - two capacitors (see the schematics)
  - a 3mm led
@@ -29,18 +29,13 @@ Hopefully this clarifies the above picture!
 ![ATtiny Weather Station](/schematics.jpg?raw=true "Schematics")
 
 ## Compile
-Lately i've switched to [Arduino IDE 1.6.5] (http://arduino.cc) on every of my computer, so i would suggest to use the same version.
-Then get the ATtiny support (http://code.google.com/archive/p/arduino-tiny/) for the IDE. This one is tested to compile fine.
-Installation goes by the instructions in the archive, but there is additional step before it's going to compile. Navigate into the freshly created `~/Arduino/hardware/tiny/avr/` and create a folder named `libraries`. From your Arduino installation folder `../Arduino/hardware/arduino/avr/libraries` copy the `EEPROM` directory to the `~/Arduino/hardware/tiny/avr/libraries`.
+Lately i've switched to [Arduino IDE 1.6.5] (https://www.arduino.cc/en/Main/OldSoftwareReleases#previous) on every of my computer, so i would suggest to use the same version. It is compiling fine on this version, though you need to get and edit some files to support the ATtiny family.
+There is an archived library on Google Code named [Arduino-Tiny] (http://code.google.com/archive/p/arduino-tiny/) and you need the latest version for Arduino 1.5.
+Installation goes by the instructions in the archive, but there is additional step before it's going to work. Navigate into the freshly created `~/Arduino/hardware/tiny/avr/` and create a folder named `libraries`. From your Arduino installation folder `../Arduino/hardware/arduino/avr/libraries` copy the `EEPROM` directory to the `~/Arduino/hardware/tiny/avr/libraries`.
 The path structure have changed in the IDE 1.6+ and maybe there is also needed to edit the compiler path in the Tiny's `platform.txt`.
 Something like this: `compiler.path={runtime.ide.path}/hardware/tools/avr/bin/`
 
-To compile there is DHTlib v0.1.13 (by Rob Tillaart) needed. It is possible to work with newer versions, but this one is tested to work with.
-Get it here: http://github.com/RobTillaart/Arduino/tree/master/libraries/DHTlib
-
-Tested to compile fine on Arduino 1.6.5 and work with ATtiny85.
-
-*** There is still room to improve this code i believe, if you have any thoughts regarding then pls let me know.
+In addition the [DHTlib v0.1.13 (by Rob Tillaart)] (http://github.com/RobTillaart/Arduino/tree/master/libraries/DHTlib) is needed. It is possible to work with newer versions, but this one is tested to work with.
 
 ## Troubleshooting
 In case you did everything as described, but still experiencing issues then you can try debugging via serial interface.
