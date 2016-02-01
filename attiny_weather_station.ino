@@ -36,9 +36,6 @@ void setup() {
   pinMode(4, OUTPUT);   // status led
   pinMode(TX_PIN, OUTPUT);  // initialize TX_PIN for sending
   
-  digitalWrite(4, HIGH);  // turn on status led on startup
-  delay(3000);    // and break code running for 3 sec
-  
   #if defined(SERTER)
     serialStart();  // start serial and print some text
   #endif
@@ -50,7 +47,6 @@ void loop() {
   message[12] = BAT;
   message[13] = TXMOD;
   message[14-15] = CHAN;
-  
   convertTemp(readTemp());
   convertHum(readHum());
   
@@ -60,7 +56,6 @@ void loop() {
   #endif
   
   digitalWrite(4, HIGH);  // turn led on during send
-
   
   for (byte r=0; r<REP; r++) { sendMessage(); }  // repeat the signal for above defined times
 
