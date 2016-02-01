@@ -7,12 +7,12 @@
  * GregNau      2016
  */
 
-// Serial terminal
-#define SERTER    // (1:Enable,0:Disable)
+// Serial terminal(you need USB TTL rx pin connected to PB3)
+//#define SERTER    // to be removed soon!
 
 // Set pins where modules connected
-#define DHT_PIN 1 // DHT Sensor pin
 #define TX_PIN 0  // Transmitter pin
+#define DHT_PIN 1 // DHT Sensor pin
 
 // Alecto WS1700 protocol settings
 #define ID 1334  // Set an ID between 1280 and 1535
@@ -21,7 +21,7 @@
 #define CHAN 0   // Set channel (0:1 or 1:2 or 2:3)
 #define REP 6    // Signal repeats
 
-// Alecto WS1700 protocol timings
+// Alecto WS1700 protocol timings (!do not change this,unless...!)
 #define LONG 3780    // LONG is approx 3780 uS
 #define SHORT 1890   // SHORT is approx 1890 uS
 #define SEP 540      // SEParator is approx 540 uS
@@ -33,57 +33,50 @@ dht DHT;
 byte message[36]; // array to hold the whole message
 
 void setup() {
-  //ledBlink(1);    // blink status led at setup start 1 times
+  pinMode(4, OUTPUT);   // status led
+  pinMode(TX_PIN, OUTPUT);  // initialize TX_PIN for sending
   
-  pinMode(TX_PIN, OUTPUT);  // Initialize TX_PIN for sending
-  //if (SERTER) { serialStart(); }    // Serial Terminal debug messages
+  digitalWrite(4, HIGH);  // turn on status led on startup
+  delay(3000);    // and break code running for 3 sec
+  
   #if defined(SERTER)
-    serialStart();
+    serialStart();  // start serial and print some text
   #endif
 }
 
 void loop() {
-  //broken...
-  //ledBlink(2);    // blink status led at loop start 2 times
-
   // Fill the message array
   convertId(ID);
   message[12] = BAT;
   message[13] = TXMOD;
   message[14-15] = CHAN;
+  
   convertTemp(readTemp());
   convertHum(readHum());
-
-  //if (SERTER) { serialPrintMessage(); }    // Print the message bits on terminal if enabled
+  
   #if defined(SERTER)
-    serialPrintMessage();
+    serialPrintMessage(); // print the message bits on terminal if enabled
+    parseMessage(); // print the data in decimal and detailed
   #endif
-  digitalWrite(4, HIGH); // turn led on during send
+  
+  digitalWrite(4, HIGH);  // turn led on during send
 
-  // Repeat the signal for above defined times
-  for (byte r=0; r<REP; r++) { sendMessage(); }    // Sending the actual 'message' with sync
+  
+  for (byte r=0; r<REP; r++) { sendMessage(); }  // repeat the signal for above defined times
 
   digitalWrite(4, LOW); // turn status led off when sent
-  //if (SERTER) { Serial.println("SENT"); }
+  
   #if defined(SERTER)
     Serial.println("SENT");
     Serial.flush();
   #endif
   
-  delay(5000);
+  delay(180000);  // delay resend with 180s = 3minutes
+  // this is not yet battery friendly, to be solved soon
 }
 
-/*void ledBlink(byte n) {
-  for (n-1; n = 0; n--) {
-    digitalWrite(LED_PIN, HIGH);
-    delay(80);
-    digitalWrite(LED_PIN, LOW);
-    delay(80);
-  }     // broken, to be solved later
-}*/
-
 void serialStart() {
-    Serial.begin(9600);    // Initialize serial communication
+    Serial.begin(9600);  // Initialize serial communication
     Serial.println("SERiAL ENABLED AT 9600 BPS");
     Serial.print("TX PiN ");Serial.print(TX_PIN);Serial.println(" SET");
     Serial.print("DHT PiN");Serial.print(DHT_PIN);Serial.println(" SET");
@@ -110,15 +103,13 @@ void convertId(int decValue) {
 // Read DHT22 Sensor
 int readTemp() {
   DHT.read22(DHT_PIN);
-  //int temp = DHT.temperature * 10;
-  int temp = 11;
+  int temp = DHT.temperature * 10;
   return temp;
 }
 
 int readHum() {
   DHT.read22(DHT_PIN);
-  //int hum = DHT.humidity;
-  int hum = 88;
+  int hum = DHT.humidity;
   return hum;
 }
 
@@ -154,44 +145,45 @@ void convertHum(int decValue) {
   }
 }
 
-// Parse the message
-void parseMessage() {
-  unsigned int id = 0;
-  for(byte i = 0; i < 12; i++) { id = (id << 1) + message[i]; }
-  Serial.print("ID = ");
-  Serial.print(id);
-  Serial.flush();
-
-  unsigned short int ch = 0;
-  for(byte i = 15; i < 17; i++) { ch = (ch << 1) + message[i]; }
-  Serial.print(" CH = ");
-  Serial.print(ch);
-  Serial.flush();
-
-  unsigned int temp = 0;
-  for(byte i = 17; i < 28; i++) { temp = (temp << 1) + message[i]; }
-  Serial.print(" TEMP = ");
-  Serial.print(temp);
-  Serial.flush();
-
-  unsigned int hum = 0;
-  for(byte i = 28; i < 36; i++) { hum = (hum << 1) + message[i]; }
-  Serial.print(" HUM = ");
-  Serial.println(hum);
-  Serial.flush();
-}
-
-// Print the whole message bit by bit
-void serialPrintMessage() {
-  Serial.print("MESSAGE: ");
-  for (byte i=0; i<36; i++) {
-    Serial.print(message[i]);
+#if defined(SERTER)
+  // Parse the message
+  void parseMessage() {
+    unsigned int id = 0;
+    for(byte i = 0; i < 12; i++) { id = (id << 1) + message[i]; }
+    Serial.print("ID = ");
+    Serial.print(id);
+    Serial.flush();
+  
+    unsigned short int ch = 0;
+    for(byte i = 15; i < 17; i++) { ch = (ch << 1) + message[i]; }
+    Serial.print(" CH = ");
+    Serial.print(ch);
+    Serial.flush();
+  
+    unsigned int temp = 0;
+    for(byte i = 17; i < 28; i++) { temp = (temp << 1) + message[i]; }
+    Serial.print(" TEMP = ");
+    Serial.print(temp);
+    Serial.flush();
+  
+    unsigned int hum = 0;
+    for(byte i = 28; i < 36; i++) { hum = (hum << 1) + message[i]; }
+    Serial.print(" HUM = ");
+    Serial.println(hum);
     Serial.flush();
   }
-  Serial.println(" SYNC");
-  Serial.flush();
-  parseMessage();
-}
+  
+  // Print the whole message bit by bit
+  void serialPrintMessage() {
+    Serial.print("MESSAGE: ");
+    for (byte i=0; i<36; i++) {
+      Serial.print(message[i]);
+      Serial.flush();
+    }
+    Serial.println(" SYNC");
+    Serial.flush();
+  }
+#endif
 
 // Signal
 void sendBit(byte b) {
