@@ -1,4 +1,4 @@
-/* ATtiny Weather Station
+/* ATtiny Weather Station v1.0
  * with Alecto WS1700 protocol.
  * 
  * Tiny,low power device designed to collect and send
@@ -8,11 +8,11 @@
  */
 
 // Serial terminal(you need USB TTL rx pin connected to PB3)
-//#define SERTER    // to be removed soon!
+//#define SERTER    //Un-comment this line to enable serial debug
 
 // Set pins where modules connected
-#define TX_PIN 0  // Transmitter pin
-#define DHT_PIN 1 // DHT Sensor pin
+#define TX_PIN 1  // Transmitter pin
+#define DHT_PIN 0 // DHT Sensor pin
 
 // Alecto WS1700 protocol settings
 #define ID 1334  // Set an ID between 1280 and 1535
@@ -71,15 +71,15 @@ void loop() {
 }
 
 void serialStart() {
-    Serial.begin(9600);  // Initialize serial communication
-    Serial.println("SERiAL ENABLED AT 9600 BPS");
-    Serial.print("TX PiN ");Serial.print(TX_PIN);Serial.println(" SET");
-    Serial.print("DHT PiN");Serial.print(DHT_PIN);Serial.println(" SET");
+    Serial.begin(9600);
+    Serial.println("ATtiny Weather Station v1.0");
+    Serial.print("TX PiN - D");Serial.println(TX_PIN);
+    Serial.print("DHT PiN - D");Serial.print(DHT_PIN);
     Serial.println();
     Serial.flush();
 }
 
-// Convert the ID to bits and write to message array
+// convert the ID to bits and write to message array
 void convertId(int decValue) {
     int binIndex = 0;
     for (int i = 11; i >= 0; i--) {
@@ -95,20 +95,20 @@ void convertId(int decValue) {
     }
 }
 
-// Read DHT22 Sensor
+// read DHT sensor temperature
 int readTemp() {
   DHT.read22(DHT_PIN);
   int temp = DHT.temperature * 10;
   return temp;
 }
-
+// read DHT sensor humidity
 int readHum() {
   DHT.read22(DHT_PIN);
   int hum = DHT.humidity;
   return hum;
 }
 
-// Convert temp to bits and fill to message array
+// convert temp to bits and fill to message array
 void convertTemp(int decValue) {
   int binIndex = 16;
   for (int i = 11; i >= 0; i--) {
@@ -124,7 +124,7 @@ void convertTemp(int decValue) {
   }
 }
 
-// Convert hum to bits and fill to message array
+// convert hum to bits and fill to message array
 void convertHum(int decValue) {
   int binIndex = 28;
   for (int i = 7; i >= 0; i--) {
@@ -141,7 +141,7 @@ void convertHum(int decValue) {
 }
 
 #if defined(SERTER)
-  // Parse the message
+  // parse the message
   void parseMessage() {
     unsigned int id = 0;
     for(byte i = 0; i < 12; i++) { id = (id << 1) + message[i]; }
@@ -168,7 +168,7 @@ void convertHum(int decValue) {
     Serial.flush();
   }
   
-  // Print the whole message bit by bit
+  // print the whole message bit by bit
   void serialPrintMessage() {
     Serial.print("MESSAGE: ");
     for (byte i=0; i<36; i++) {
@@ -180,7 +180,7 @@ void convertHum(int decValue) {
   }
 #endif
 
-// Signal
+// replay the value b on tx-pin
 void sendBit(byte b) {
   if (b == 0) {               // LOW
     digitalWrite(TX_PIN, HIGH);
@@ -195,7 +195,7 @@ void sendBit(byte b) {
   delayMicroseconds(SEP);
 }
 
-// SYNC Signal
+// SYNC signal
 void sendSync() {
   digitalWrite(TX_PIN, HIGH);
   delayMicroseconds(SYNC);
@@ -203,10 +203,10 @@ void sendSync() {
   delayMicroseconds(SEP);
 }
 
-// Send the 'message' by bits
+// send the 'message' by bits
 void sendMessage() {
   for (byte i = 0; i < 36; i++) {
     sendBit(message[i]);
   }
-  sendSync();    // Send the SYNC signal at the end
+  sendSync();    // send the SYNC signal at the end
 }
