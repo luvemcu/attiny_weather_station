@@ -3,28 +3,28 @@ Small but accurate device to collect environmental temperature and relative humi
 Compared to my other weather station running on Arduino Nano (328P) it is a power saving device, consumes only a few milliamps!
 Therefore it can run off a single 9v battery for almost a month. Everything is detailed below to build yourself one, but in case you have questions, i'm glad to answer! The project is yet not complete, there can be still issues and mistypes so watch out.
 
-## Parts-list:
- - [Atmel ATtiny85 microchip](http://www.atmel.com/images/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf)
- - [DHT22/AM2302 sensor](https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf)
- - [RF 433 transmitter module (3.3v)](http://www.dx.com/nl/p/mini-3-3v-rf-transmitter-receiver-module-433mhz-wireless-link-kit-for-arduino-3-3v-mcu-414004#.VrDg8Hko-Uk)
- - [LT1763-3.3v micropower reg.](http://cds.linear.com/docs/en/datasheet/1763fh.pdf)
- - [battery holder or adapter (9v)](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR0.TRC0.H0.X9v+battery+arduino.TRS0&_nkw=9v+battery+arduino&_sacat=0)
- - [Tactile SPST switch](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR10.TRC2.A0.H0.Xspst+switch+smd.TRS0&_nkw=spst+switch+smd&_sacat=0) (momentary pushbutton)
- - [few different resistors](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xresistor+pack.TRS0&_nkw=resistor+pack&_sacat=0) (see the [Schematic](#schematic))
- - [two capacitors](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xcapacitor+pack.TRS0&_nkw=capacitor+pack&_sacat=0) (see the [Schematic](#schematic))
- - [a 3mm led](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xled+3mm.TRS0&_nkw=led+3mm&_sacat=0)
- - [some wires](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xjumper+wire+arduino.TRS0&_nkw=jumper+wire+arduino&_sacat=0)
+## Parts-list
+ - [**Atmel ATtiny85 microchip**](http://www.atmel.com/images/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf)
+ - [**DHT22/AM2302 sensor**](https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf)
+ - [**RF 433 transmitter module (3.3v)**](http://www.dx.com/nl/p/mini-3-3v-rf-transmitter-receiver-module-433mhz-wireless-link-kit-for-arduino-3-3v-mcu-414004#.VrDg8Hko-Uk)
+ - [**LT1763-3.3v micropower reg.**](http://cds.linear.com/docs/en/datasheet/1763fh.pdf)
+ - [**battery holder or adapter (9v)**](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR0.TRC0.H0.X9v+battery+arduino.TRS0&_nkw=9v+battery+arduino&_sacat=0)
+ - [**Tactile SPST switch**](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR10.TRC2.A0.H0.Xspst+switch+smd.TRS0&_nkw=spst+switch+smd&_sacat=0) (momentary pushbutton)
+ - [**few different resistors**](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xresistor+pack.TRS0&_nkw=resistor+pack&_sacat=0) (see the [Schematic](#schematic))
+ - [**two capacitors**](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xcapacitor+pack.TRS0&_nkw=capacitor+pack&_sacat=0) (see the [Schematic](#schematic))
+ - [**a 3mm led**](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xled+3mm.TRS0&_nkw=led+3mm&_sacat=0)
+ - [**some wires**](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xjumper+wire+arduino.TRS0&_nkw=jumper+wire+arduino&_sacat=0)
 
 Most of these are easily available anywhere online, but some of the links above are pointing directly to products.
 
-## Wiring:
+## Wiring
 Please take the time to study properly the wiring below. Also pay attention for the connection points, some places just cable crossings but not connected! If something still not clear you find a [schematic](#schematic) further down.
 
 ![ATtiny Weather Station](/wiring.jpg?raw=true "Wiring")
 
 *The length of the antenna is very important for a decent range on the radio. 1/4 wave antenna lengths are 433MHz - 17.28 cm, 315MHz - 23.81 cm.
 
-## Schematic:
+## Schematic
 Hopefully this clarifies the above picture!
 
 ![ATtiny Weather Station](/schematics.jpg?raw=true "Schematics")
