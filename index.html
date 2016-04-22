@@ -31,68 +31,63 @@
         <h1>
 <a id="attiny-weather-station" class="anchor" href="#attiny-weather-station" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ATtiny Weather Station</h1>
 
-<p>Small but accurate device to collect environmental temperature and relative humidity which is sent through RF 433/315mhz. It uses the protocol of <a href="http://www.alecto.nl/weerstation-1700">Alecto WS-1700</a> weather stations, since that is recognized by a great domotica solution: <a href="http://www.pilight.org">Pilight</a>.
-Compared to my other weather station running on Arduino Nano (328P) it is a power saving device, consumes only a few milliamps!
-Therefore it can run off a single 9v battery for almost a month. Everything is detailed below to build yourself one, but in case you have questions, i'm glad to answer! The project is yet not complete, there can be still issues and mistypes so watch out.</p>
+<p>Small and accurate device to collect environmental temperature and relative humidity which is sent through RF 433/315mhz. Transmission uses the protocol of <a href="http://www.alecto.nl/weerstation-1700">Alecto WS-1700</a> weather stations, since that is recognized by a great domotica solution: <a href="http://www.pilight.org">Pilight</a>. Compared to <a href="http://www.github.com/gregnau/arduino_weather_station">my other weather station</a> running on Arduino Nano (328P) it is a power saving device: consuming only a few microamps!
+Therefore it can run off a single 9v battery for months, maybe years. Everything is detailed below to build yourself one, but in case you have questions or issues, i'm glad to answer/help. The project is still not complete, watch out for any mistakes! </p>
 
 <h2>
 <a id="parts-list" class="anchor" href="#parts-list" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parts-list</h2>
 
 <ul>
-<li><a href="http://www.atmel.com/images/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf"><strong>Atmel ATtiny85 microchip</strong></a></li>
+<li>
+<a href="http://www.atmel.com/images/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf"><strong>Atmel ATtiny85 microchip</strong></a> (tested to work with)</li>
 <li><a href="https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf"><strong>DHT22/AM2302 sensor</strong></a></li>
 <li><a href="http://www.dx.com/nl/p/mini-3-3v-rf-transmitter-receiver-module-433mhz-wireless-link-kit-for-arduino-3-3v-mcu-414004#.VrDg8Hko-Uk"><strong>RF 433 transmitter module (3.3v)</strong></a></li>
-<li><a href="http://cds.linear.com/docs/en/datasheet/1763fh.pdf"><strong>LT1763-3.3v micropower reg.</strong></a></li>
-<li><a href="http://www.ebay.com/sch/i.html?_from=R40&amp;_trksid=p2050601.m570.l1313.TR0.TRC0.H0.X9v+battery+arduino.TRS0&amp;_nkw=9v+battery+arduino&amp;_sacat=0"><strong>battery holder or adapter (9v)</strong></a></li>
+<li><a href=""><strong>battery holder 3xAA or AAA (4.5v)</strong></a></li>
 <li>
 <a href="http://www.ebay.com/sch/i.html?_from=R40&amp;_trksid=p2050601.m570.l1313.TR10.TRC2.A0.H0.Xspst+switch+smd.TRS0&amp;_nkw=spst+switch+smd&amp;_sacat=0"><strong>Tactile SPST switch</strong></a> (momentary pushbutton)</li>
 <li>
 <a href="http://www.ebay.com/sch/i.html?_from=R40&amp;_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xresistor+pack.TRS0&amp;_nkw=resistor+pack&amp;_sacat=0"><strong>few different resistors</strong></a> (see the <a href="#schematic">Schematic</a>)</li>
-<li>
-<a href="http://www.ebay.com/sch/i.html?_from=R40&amp;_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xcapacitor+pack.TRS0&amp;_nkw=capacitor+pack&amp;_sacat=0"><strong>two capacitors</strong></a> (see the <a href="#schematic">Schematic</a>)</li>
 <li><a href="http://www.ebay.com/sch/i.html?_from=R40&amp;_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xled+3mm.TRS0&amp;_nkw=led+3mm&amp;_sacat=0"><strong>a 3mm led</strong></a></li>
 <li><a href="http://www.ebay.com/sch/i.html?_from=R40&amp;_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xjumper+wire+arduino.TRS0&amp;_nkw=jumper+wire+arduino&amp;_sacat=0"><strong>some wires</strong></a></li>
 </ul>
 
-<p>Most of these are easily available anywhere online, but some of the links above are pointing directly to products.</p>
+<p>Most of these are easily available anywhere online, but some of the links above are pointing directly to products available to buy online.</p>
 
 <h2>
 <a id="wiring" class="anchor" href="#wiring" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Wiring</h2>
 
 <p>Please take the time to study properly the wiring below. Also pay attention for the connection points, some places just cable crossings but not connected! If something still not clear you find a <a href="#schematic">schematic</a> further down.</p>
 
-<p><img src="http://raw.githubusercontent.com/gregnau/attiny_weather_station/master/wiring.jpg" alt="ATtiny Weather Station" title="Wiring"></p>
+<p><img src="/wiring.jpg?raw=true" alt="ATtiny Weather Station" title="Wiring"></p>
 
-<p>*The length of the antenna is very important for a decent range on the radio. 1/4 wave antenna lengths are 433MHz - 17.28 cm, 315MHz - 23.81 cm.</p>
+<p>*The length of the antenna is very important for a decent range on the radio. 1/4 wave antenna lengths are 433MHz - 17.28 cm, 315MHz - 23.81 cm. Hint: it can be a piece of wire, not necessary to search an antenna like on the picture above.</p>
 
 <h2>
 <a id="schematic" class="anchor" href="#schematic" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Schematic</h2>
 
 <p>Hopefully this clarifies the above picture!</p>
 
-<p><img src="http://raw.githubusercontent.com/gregnau/attiny_weather_station/master/schematics.jpg" alt="ATtiny Weather Station" title="Schematics"></p>
+<p><img src="/schematics.jpg?raw=true" alt="ATtiny Weather Station" title="Schematics"></p>
 
 <h2>
 <a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuration</h2>
 
-<p>There are some options available on top of the code:</p>
+<p>There is a settings block on top of the main code file.
+It's possible to adjust the signal and transmission properties here.</p>
 
-<pre><code>// Set pins where modules connected
-#define TX_PIN 0  // Transmitter pin
-#define DHT_PIN 1  // DHT Sensor pin
-
-// Alecto WS1700 protocol settings
-#define ID 1334  // Set an ID between 1280 and 1535
-#define BAT 1  // Battery status to send in signal (0:Depleted, 1:Charged)
-#define TXMOD 0  // Sending mode (0:Auto,1:Forced)
-#define CHAN 0  // Set channel (0:1 or 1:2 or 2:3)
-#define REP 6  // Signal repeats
-
-// Serial terminal(you need USB TTL rx pin connected to PB3)
-//#define SERTER    // Un-comment this line to enable serial debug
+<pre><code>// SETTINGS
+#define INTVAL 60  // frequency of sending the data in seconds.
+#define CHAN 1  // set channel bit (0=CH1,1=CH2,2=CH3, )
+#define REP 7  // signal repeats (default=7x)
+#define ID 1318  // device id (1280-1535) [when disabled, random id on start]
 </code></pre>
 
-<p>Pretty much self-explanatory, though it is not necessary to change any of these for basic operation. More information on the <code>SERTER</code> is described in the <a href="#troubleshooting">Troubleshooting</a> section below.</p>
+<p>Pretty much self-explanatory, though it is not necessary to change any of these for basic operation.</p>
+
+<p>Since version v3 there is a calibration function for the battery. Not calibrated readings of the VCC are very inaccurate, that's why it is recommended to do. Measure the voltage on the VCC pin and multiply the value with 100, then uncomment this line in the code with that value.</p>
+
+<pre><code>#define VCC1 424  // Battery calibration value
+</code></pre>
 
 <h2>
 <a id="compile" class="anchor" href="#compile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compile</h2>
@@ -110,28 +105,9 @@ Something like this: <code>compiler.path={runtime.ide.path}/hardware/tools/avr/b
 <h2>
 <a id="troubleshooting" class="anchor" href="#troubleshooting" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Troubleshooting</h2>
 
-<p>In case you did everything as described, but still experiencing issues then you can try debugging via serial interface.
-The code file begins with a commented line <code>SERTER</code> which you need to uncomment and upload to the ATtiny.</p>
+<p>Most common issue is with the timing, caused by the internal oscillator of the ATtinys. These devices stated to be calibrated, but it is advised to do it again yourself. This can be done easily with <a href="http://ernstc.dk/arduino/tinytuner.html">TinyTuner</a> and a <a href="http://www.ebay.com/sch/i.html?_from=R40&amp;_trksid=p2050601.m570.l1313.TR0.TRC0.H0.TRS0&amp;_nkw=usb+ttl&amp;_sacat=0">USB-TTL cable</a>. For more information please check out the links.</p>
 
-<pre><code>// Serial terminal(you need USB TTL rx pin connected to PB3)
-//#define SERTER    // Un-comment this line to enable serial debug
-</code></pre>
-
-<p>Then you can connect a USB TTL's rx pin on the tiny's PB3 pin. Though this way there is no sending from the terminal, but you can see some texts confirming status of the program. Baud rate must be set to 9600bps or if you prefer faster speeds than look for the function <code>serialStart();</code> and change it.</p>
-
-<p>Then you should see something like this printing in the terminal window of the:</p>
-
-<pre><code>ATtiny Weather Station v1.0
-SERIAL TERMINAL - ENABLED
-TX PIN - D3
-DHT PIN - D2
-
-MESSAGE 0101111100111000000011001011001010111 SYNC
-        ID = 1334   CH = 1  TEMP = 20.1   HUM = 56
-SENT
-</code></pre>
-
-<p>If it displays everything like above, then you should take a look on the wiring.</p>
+<p>Serial terminal have been removed, because it were causing more trouble than anything. Besides it was just garbage many time, printing unreadable characters. Instead there is the <code>ledBlink(n)</code> function, where "<code>n</code>" is times the led will blink.</p>
 
 <h2>
 <a id="reference" class="anchor" href="#reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reference</h2>
