@@ -6,21 +6,20 @@ Therefore it can run off a single 9v battery for months, maybe years. Everything
  - [**Atmel ATtiny85 microchip**](http://www.atmel.com/images/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf) (tested to work with)
  - [**DHT22/AM2302 sensor**](https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf)
  - [**RF 433 transmitter module (3.3v)**](http://www.dx.com/nl/p/mini-3-3v-rf-transmitter-receiver-module-433mhz-wireless-link-kit-for-arduino-3-3v-mcu-414004#.VrDg8Hko-Uk)
- - [**battery holder or adapter (4.5v)**]()
+ - [**battery holder 3xAA or AAA (4.5v)**]()
  - [**Tactile SPST switch**](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR10.TRC2.A0.H0.Xspst+switch+smd.TRS0&_nkw=spst+switch+smd&_sacat=0) (momentary pushbutton)
  - [**few different resistors**](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xresistor+pack.TRS0&_nkw=resistor+pack&_sacat=0) (see the [Schematic](#schematic))
- - [**two capacitors**](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xcapacitor+pack.TRS0&_nkw=capacitor+pack&_sacat=0) (see the [Schematic](#schematic))
  - [**a 3mm led**](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xled+3mm.TRS0&_nkw=led+3mm&_sacat=0)
  - [**some wires**](http://www.ebay.com/sch/i.html?_from=R40&_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xjumper+wire+arduino.TRS0&_nkw=jumper+wire+arduino&_sacat=0)
 
-Most of these are easily available anywhere online, but some of the links above are pointing directly to products.
+Most of these are easily available anywhere online, but some of the links above are pointing directly to products available to buy online.
 
 ## Wiring
 Please take the time to study properly the wiring below. Also pay attention for the connection points, some places just cable crossings but not connected! If something still not clear you find a [schematic](#schematic) further down.
 
 ![ATtiny Weather Station](/wiring.jpg?raw=true "Wiring")
 
-*The length of the antenna is very important for a decent range on the radio. 1/4 wave antenna lengths are 433MHz - 17.28 cm, 315MHz - 23.81 cm.
+*The length of the antenna is very important for a decent range on the radio. 1/4 wave antenna lengths are 433MHz - 17.28 cm, 315MHz - 23.81 cm. Hint: it can be a piece of wire, not necessary to search an antenna like on the picture above.
 
 ## Schematic
 Hopefully this clarifies the above picture!
@@ -28,16 +27,19 @@ Hopefully this clarifies the above picture!
 ![ATtiny Weather Station](/schematics.jpg?raw=true "Schematics")
 
 ## Configuration
-There is a configuration block on top of the main code file.
-It's possible to set here the options, which is hardcoded or controlled by switches on Alecto Ws devices.
+There is a settings block on top of the main code file.
+It's possible to adjust the signal and transmission properties here.
 
-	// CONFIG
-	#define INTERVAL 120  // frequency of sending the data in seconds.
-	#define CHAN 1  // set channel (0:1 or 1:2 or 2:3)
-	#define REP 7  // signal repeats (default:7)
-	#define ID 1318  // device id (1280-1535)
-
+	// SETTINGS
+	#define INTVAL 60  // frequency of sending the data in seconds.
+	#define CHAN 1  // set channel bit (0=CH1,1=CH2,2=CH3, )
+	#define REP 7  // signal repeats (default=7x)
+	#define ID 1318  // device id (1280-1535) [when disabled, random id on start]
 Pretty much self-explanatory, though it is not necessary to change any of these for basic operation.
+
+Since version v3 there is a calibration function for the battery. Not calibrated readings of the VCC are very inaccurate, that's why it is recommended to do. Measure the voltage on the VCC pin and multiply the value with 100, then uncomment this line in the code with that value.
+
+	#define VCC1 424  // Battery calibration value
 
 ## Compile
 Lately i've switched to [Arduino IDE 1.6.5](http://arduino.cc) on every of my computer, so i would suggest to use the same version.
